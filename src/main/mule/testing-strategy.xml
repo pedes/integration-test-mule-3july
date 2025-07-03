@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="aa4a02bb-246c-4202-ae9d-6b1b4bdf6147" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="testing-strategyFlow" doc:id="62aa1ba9-a29f-45d8-89b2-89cefcd2b1bf" >
+		<http:listener doc:name="Listener" doc:id="78dec859-802f-4eef-809b-d35f59780e08" config-ref="HTTP_Listener_config" path="/test"/>
+		<ee:transform doc:name="Transform Message" doc:id="852088c4-dac3-465c-9a1a-2b9bfdc12820" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+ resource: "order",
+ id: "ord_kEn1PlbGa",
+ profileId: "pfl_URR55HPMGx",
+ method: "ideal",
+ amount: {
+  value: "1027.99",
+  currency: "EUR"
+ },
+ status: "created",
+ isCancelable: true,
+ metadata: null,
+ createdAt: "2018-08-02T09:29:56+00:00",
+ expiresAt: "2018-08-30T09:29:56+00:00",
+ mode: "live",
+ locale: "nl_NL",
+ billingAddress: {
+  organizationName: "Mollie B.V.",
+  streetAndNumber: "Keizersgracht 126",
+  postalCode: "1015 CW",
+  city: "Amsterdam",
+  country: "nl",
+  givenName: "Luke",
+  familyName: "Skywalker",
+  email: "luke@skywalker.com"
+ },
+ shopperCountryMustMatchBillingCountry: false,
+ consumerDateOfBirth: "1993-10-21",
+ orderNumber: "18475",
+ shippingAddress: {
+  organizationName: "Mollie B.V.",
+  streetAndNumber: "Keizersgracht 126",
+  postalCode: "1015 CW",
+  city: "Amsterdam",
+  country: "nl",
+  givenName: "Luke",
+  familyName: "Skywalker",
+  email: "luke@skywalker.com"
+ }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="34eba5a6-4f7e-4eb7-93e7-6bc55a3047eb" />
+	</flow>
+</mule>

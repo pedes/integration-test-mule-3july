@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="testing-strategy-test-suite.xml" />
+	<munit:test name="testing-strategy-test-suite-testing-strategyFlowTest" doc:id="1e18da53-bb76-4db7-b125-d6f8bf1d37fa" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to testing-strategyFlow" doc:id="163c1731-1c42-45d8-b845-ea1727257687" name="testing-strategyFlow"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="0ab65c6d-8c5e-47b5-9cff-4ca28921ea96" expression="#[message.payload]" is="#[MunitTools::notNullValue()]"/>
+			<munit-tools:verify-call doc:name="Verify call" doc:id="7d0d8223-e6e2-44cd-8c1c-9ed0d65b87d4" processor="logger" atLeast="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="INFO" attributeName="level" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+</mule>
